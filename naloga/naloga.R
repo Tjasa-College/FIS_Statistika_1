@@ -125,8 +125,9 @@ ggplot(data = data_urejeni) +
   ggtitle("Okvir z ročaji - razporeditev teže")
 
 #c) hipoteza
-#glede na dane podathe predvidevam da teža in višina nista povezani med seboj. 
-#V primeru teže imamo večino rezultatov na zelo majhnem intervalu, v primeru višine pa je le ta bolj razpršenA
+#Predpostavim, da povezanost med težo in višino ne obstaja, saj imata oba grafa popolnoma 
+#drugačno asimetrijo in razpršenost. Vidim, da za različne višine dobimo dokaj ozek izbor tež 
+#(večinoma med 60kg in 80kg).
 
 
 # d) Glede na vsebino spremenljivk določite odvisno (Y) in neodvisno (X) spremenljivko.
@@ -134,3 +135,40 @@ ggplot(data = data_urejeni) +
 # spremenljivka Y. Ustrezno preimenujte naslova osi, grafikonu dodajte tudi glavni naslov.
 # Ali razsevni grafikon nakazuje na povezanost obravnavanih spremenljivk? Svoj odgovor
 # pojasnite.
+
+# Y odvisna -> teža
+# X neodvisna -> višina
+
+#razsevni grafikon:
+ggplot(data_urejeni, mapping = aes(x=visina, y=teza)) +
+  geom_point() +
+  xlab("Višina anketirancev") +
+  ylab("Teža anketirancev") +
+  ggtitle("Razsevni grafikon: odvisnost teže od višine") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+#razsevni grafikon nakazuje povezanost obravnavanih spremenljivk. 
+#Glede na razsevni grafikon predvidevam da je pozevanost linearna, pozitivna in šibla
+
+#Med obravnavanima spremenljivkama preverite njuno povezanost s pomočjo
+#Pearsonovega korelacijskega koeficienta. Na osnovi njegove vrednosti opredelite smer in
+#jakost povezanosti med obravnavanima spremenljivkama. Primerjajte dobljeni rezultat z
+#vašo hipotezo iz točke c) te naloge.
+
+pearsonov_koeficient = cor(data_urejeni$visina, data_urejeni$teza, method="pearson")
+pearsonov_koeficient
+
+#f) Izračunajte ustrezno linearno regresijsko premico in jo zapišite. Regresijsko premico
+#vrišite tudi v razsevni grafikon iz točke d) te naloge.
+
+model = lm(formula = teza ~ visina, data = data_urejeni)
+model
+ggplot(data_urejeni, mapping = aes(x=visina, y=teza)) + 
+  geom_point() +
+  geom_smooth(method='lm', se = FALSE)
+# 56.2498, 0.0949
+# teza = 56.2498 + 0.0949 * visina
+
+summary(model)
+#Adjusted R-squared:  -0.006445 

@@ -332,16 +332,3 @@ c_pop
 #Naša hipoteza je bila da bo povezanost srednje močna, glede na vsebino spremenljivk,
 #strukturni stolci so nam povedali da bo mogoče bolj šibka, dokler po opravljeni analizi
 # (hi kvadrat test) smo dobili da povezanosti ni. 
-
-
-
-
-
-
-
-
-
-
-
-
-
