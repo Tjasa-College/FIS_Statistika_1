@@ -21,8 +21,7 @@ getwd()
 data = read.csv("FavouriteIndianFood.csv", header = TRUE)
 
 #b) priprava podatkov za kasnejšo uporabo:
-zaposlitveni_status = data$employment_status #opisna
-cepljenje_proti_COVIDu = data$covid_vaccine #opisna
+
 visina = data$height #številska
 teza = data$weight #številska
 
@@ -172,3 +171,68 @@ ggplot(data_urejeni, mapping = aes(x=visina, y=teza)) +
 
 summary(model)
 #Adjusted R-squared:  -0.006445 
+
+#3. ANALIZA OPISNIH SPREMENLJIVK
+zaposlitveni_status = data$employment_status #opisna
+cepljenje_proti_COVIDu = data$covid_vaccine #opisna
+
+# a) Obe opisni spremenljivki najprej predstavite s pomočjo izpisa, ki prikazuje frekvence in
+# odstotke posameznih vrednosti spremenljivk.
+table(zaposlitveni_status)
+prop.table(table(zaposlitveni_status))*100
+
+table(cepljenje_proti_COVIDu)
+prop.table(table(cepljenje_proti_COVIDu))*100
+
+# b) Opisni spremenljivki predstavite tudi grafično (prikaz s stolpci), in na osnovi grafičnih
+# prikazov opišite značilnosti posamezne spremenljivke.
+
+
+ggplot(data = data_urejeni) +
+  geom_bar(mapping = aes(x = zaposlitveni_status), color = 'black', fill = 'white') +
+  xlab("Status zaposlitve") +
+  ylab("Število udeležencev")
+
+ggplot(data = data_urejeni) +
+  geom_bar(mapping = aes(x = cepljenje_proti_COVIDu), color = 'black', fill = 'white') +
+  xlab("Cepljen proti COVIDu") +
+  ylab("Število udeležencev")
+
+
+# c) Za obravnavani opisni spremenljivki izračunajte kontingenčno tabelo ter jo izpišite.
+
+kont_tabela = table(zaposlitveni_status, cepljenje_proti_COVIDu)
+kont_tabela
+
+
+# e) Narišite oba grafa dvorazsežnih struktur: strukture ene opisne spremenljivke po stolcih
+# druge na enem grafu in obratno na drugem. Sa slik opredelite če pričakujete povezanost
+# spremenljivk in zakaj (zakaj ne).
+
+ggplot(data = data_urejeni) + 
+  geom_bar(mapping = aes(x = zaposlitveni_status, fill = cepljenje_proti_COVIDu), position = 'fill') +
+  xlab("Zaposlitveni status")
+
+# na tem grafu opazimo, da so vsi zaposleni udeleženci cepljeni proti kovidu, 
+ggplot(data = data_urejeni) +
+  geom_bar(mapping = aes( x = cepljenje_proti_COVIDu, fill = zaposlitveni_status), position = 'fill') +
+  xlab("Cepljen proti COVIDu")
+
+# d) Glede na vsebino spremenljivk, zapišite vašo hipotezo, oziroma če pričakujete njuno
+# povezanost in zakaj (zakaj ne).
+
+#Pričakujem šibko povezanost med spremenljivkama, saj opažam da so vsi zaposleni cepljeni, 
+#največ necepljenih pa je med nezaposlenimi
+
+# f) Izračunajte vrednost Hi-kvadrat testa in kontingenčne koeficiente (C in Cpop). Opredelite
+# in obrazložite, ali med spremenljivkama obstaja povezava, tudi kakšna je jakost povezanosti
+# med obravnavanima spremenljivkama.
+
+HI2 =chisq.test(kont_tabela)
+HI2
+library(grid)
+library(vcd)
+assocstats(kont_tabela)
+
+C_pop = 0.218/sqrt((2-1)/2)
+C_pop
