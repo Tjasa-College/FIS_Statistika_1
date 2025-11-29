@@ -24,6 +24,8 @@ data = read.csv("FavouriteIndianFood.csv", header = TRUE)
 
 visina = data$height #številska
 teza = data$weight #številska
+zaposlitveni_status = data$employment_status #opisna
+cepljenje_proti_COVIDu = data$covid_vaccine #opisna
 
 data_urejeni = data.frame(zaposlitveni_status, cepljenje_proti_COVIDu, visina, teza)
 
@@ -173,8 +175,7 @@ summary(model)
 #Adjusted R-squared:  -0.006445 
 
 #3. ANALIZA OPISNIH SPREMENLJIVK
-zaposlitveni_status = data$employment_status #opisna
-cepljenje_proti_COVIDu = data$covid_vaccine #opisna
+
 
 # a) Obe opisni spremenljivki najprej predstavite s pomočjo izpisa, ki prikazuje frekvence in
 # odstotke posameznih vrednosti spremenljivk.
